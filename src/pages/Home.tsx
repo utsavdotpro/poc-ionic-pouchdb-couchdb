@@ -1,6 +1,31 @@
 import { IonContent, IonPage } from "@ionic/react";
+import { useDocuments } from "@lib/db";
+import { useEffect } from "react";
 
 const Home: React.FC = () => {
+  const { categoryDocument, productDocument, supplierDocument } =
+    useDocuments();
+
+  const op = async () => {
+    const result = await categoryDocument.create({
+      name: "Category 1",
+    });
+
+    const category = await categoryDocument.read(result.id);
+
+    await categoryDocument.update(
+      result.id,
+      { name: "Category 1 updated" },
+      category._rev
+    );
+
+    console.log("update", await categoryDocument.read(result.id));
+  };
+
+  useEffect(() => {
+    op();
+  }, []);
+
   return (
     // INFO: pt-safe (from tailwindcss-safe-area) plugin adds padding to the top of the page to avoid the status bar
     <IonPage className="pt-safe">
