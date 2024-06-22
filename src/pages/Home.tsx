@@ -3,8 +3,7 @@ import { useDocuments } from "@lib/db";
 import { useEffect } from "react";
 
 const Home: React.FC = () => {
-  const { categoryDocument, productDocument, supplierDocument } =
-    useDocuments();
+  const { categoryDocument } = useDocuments();
 
   const op = async () => {
     const result = await categoryDocument.create({
@@ -13,11 +12,12 @@ const Home: React.FC = () => {
 
     const category = await categoryDocument.read(result.id);
 
-    await categoryDocument.update(
-      result.id,
-      { name: "Category 1 updated" },
-      category._rev
-    );
+    console.log("create", category);
+
+    await categoryDocument.update(result.id, {
+      ...category,
+      name: "Category 1 updated",
+    });
 
     console.log("update", await categoryDocument.read(result.id));
   };
