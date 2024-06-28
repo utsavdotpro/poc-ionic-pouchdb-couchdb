@@ -4,12 +4,10 @@ import { createContext, useContext } from "react";
 
 import DB from "./pouchDB";
 
-const DATABASE_NAME = "primary-db";
-
 const document = {
-  categoryDocument: DB.getInstance<Category>(DATABASE_NAME),
-  productDocument: DB.getInstance<Product>(DATABASE_NAME),
-  supplierDocument: DB.getInstance<Supplier>(DATABASE_NAME),
+  categoryDocument: DB.getInstance<Category>(),
+  productDocument: DB.getInstance<Product>(),
+  supplierDocument: DB.getInstance<Supplier>(),
 };
 
 const DatabaseContext = createContext(document);

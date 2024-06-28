@@ -6,17 +6,39 @@ import { getFirstDefinded } from "@utils/helpers";
 
 PouchDB.plugin(PouchDBFind);
 
+const LOCAL_DB_NAME = "db";
+// TODO: use env variables
+const REMOTE_DB_URL = "http://admin:admin@127.0.0.1:5984/db";
+
 class DB<T extends BaseModel> {
   private static instance: DB<any>;
-  private db: PouchDB.Database<T>;
+  private db!: PouchDB.Database<T>;
 
-  private constructor(dbName: string) {
-    this.db = new PouchDB(dbName);
+  private constructor() {
+    this.setup();
   }
 
-  public static getInstance<T extends BaseModel>(dbName: string): DB<T> {
-    if (!DB.instance) DB.instance = new DB<T>(dbName);
+  private setup() {
+    const localDB = new PouchDB<T>(LOCAL_DB_NAME);
+    const db = new PouchDB<T>(REMOTE_DB_URL);
 
+    localDB
+      .sync(db, { live: true, retry: true })
+      .on("change", function (change) {
+        console.log("change", change);
+      })
+      .on("paused", function (info) {
+        console.log("paused", info);
+      })
+      .on("error", function (err) {
+        console.log("error", err);
+      });
+
+    this.db = localDB;
+  }
+
+  public static getInstance<T extends BaseModel>(): DB<T> {
+    if (!DB.instance) DB.instance = new DB<T>();
     return DB.instance;
   }
 
