@@ -44,13 +44,17 @@ const Home: React.FC = () => {
   return (
     <IonPage className="pt-safe">
       <IonContent fullscreen>
-        <div className="p-4 font-bold">
+        <div className="p-4">
+          <div className="text-md mt-4 mb-10 text-center font-semibold">
+            PouchDB + CouchDB Demo with Ionic App
+          </div>
+
           <div className="mb-4 flex">
             <input
               type="text"
               id="categoryName"
               placeholder="Enter category name"
-              className="border p-2 rounded w-full mr-2"
+              className="border py-2 rounded-full w-full me-4 px-4"
             />
             <button
               onClick={async () => {
@@ -65,7 +69,7 @@ const Home: React.FC = () => {
                   setCategories(categories);
                 }
               }}
-              className="bg-blue-500 text-white p-2 rounded"
+              className="bg-blue-500 rounded-full text-white px-4 py-2 rounded"
             >
               Add
             </button>
@@ -75,9 +79,10 @@ const Home: React.FC = () => {
             {categories.map((category) => (
               <li
                 key={category._id}
-                className="flex justify-between items-center mb-2"
+                className="flex justify-between items-center mb-2 border-t border-gray-200 pt-2.5 px-2"
               >
                 <span>{category.name}</span>
+
                 <button
                   onClick={async () => {
                     await deleteCategory(category._id);
@@ -86,7 +91,7 @@ const Home: React.FC = () => {
                     const updatedCategories = await listCategories();
                     setCategories(updatedCategories);
                   }}
-                  className="bg-red-500 text-white p-2 rounded"
+                  className="bg-red-500 text-white w-7 h-7 flex items-center justify-center rounded-full"
                 >
                   &times;
                 </button>
