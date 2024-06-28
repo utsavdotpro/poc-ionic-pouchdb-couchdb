@@ -19,6 +19,10 @@ Starter with a template for Ionic + Capacitor with Tailwind in TypeScript with a
 
 ---
 
+## Sample
+
+<img src="sample/screenshot1.jpeg" width="400" alt="Sample Screenshot" />
+
 ## Getting started
 
 Prepare development environment
